@@ -25,6 +25,7 @@ function exibirAviso(){
 function mudouSelect(event: Event){
   alert((event.target as HTMLSelectElement).value)
 }
+
 </script>
 
 <template>
@@ -43,10 +44,14 @@ function mudouSelect(event: Event){
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur necessitatibus, hic ad aliquam iusto quam neque incidunt quia atque, aliquid ex enim facilis mollitia consequuntur molestias, dicta eveniet error ipsum!</p>
         <h4>{{ nome }} {{ idade }}</h4>
         <ol>
-          <li>{{ filme1 }}</li>
+          <li>{{ filme1}}</li>
           <li>{{ filme2 }}</li>
           <li>{{ filme3 }}</li>
         </ol>
+
+        <input type="text">
+
+        <h1></h1>
       </div>
     </div>
   </div>
