@@ -26,6 +26,10 @@ function mudouSelect(event: Event){
   alert((event.target as HTMLSelectElement).value)
 }
 
+function mudouTexto(event: Event){
+  return ((event.target as HTMLSelectElement).value)
+}
+
 </script>
 
 <template>
@@ -50,6 +54,8 @@ function mudouSelect(event: Event){
         </ol>
 
         <input type="text">
+
+        <h1 @change="mudouTexto($event)" class="" name=""></h1>
 
         <h1></h1>
       </div>
