@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import { computed, ref } from 'vue'
 const cidade = "Tubarão, SC"
 const escola = "Senai"
 const nome = "Nome "
@@ -8,6 +9,10 @@ const idade = 19
 const filme1 = "Capitão América o Soldado Invernal"
 const filme2 = "Inerestelar"
 const filme3 = "Guardiões da galáxia"
+const valor = ref("")
+const rolav = computed(() => {
+  return valor.value.split('').reverse().join('')
+})
 
 
 function desabilitado(){
@@ -53,9 +58,10 @@ function mudouTexto(event: Event){
           <li>{{ filme3 }}</li>
         </ol>
 
-        <input type="text">
+        <input type="text" class="form=control" v-model="valor">
 
-        <h1 @change="mudouTexto($event)" class="" name=""></h1>
+        <h1>{{ valor }}</h1>
+        <h1>{{ rolav }}</h1>
 
         <h1></h1>
       </div>
