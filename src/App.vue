@@ -11,8 +11,10 @@ const filme2 = "Inerestelar"
 const filme3 = "Guardiões da galáxia"
 const valor = ref("")
 const rolav = computed(() => {
-  return valor.value.split('').reverse().join('')
+  return valor.value.split('').reverse().join('') 
 })
+const visivel = true
+const invisivel = false
 
 
 function desabilitado(){
@@ -40,7 +42,7 @@ function mudouTexto(event: Event){
 <template>
   <div class="container">
     <div class="row">
-      <div class="col">
+      <div v-if="visivel" class="col">
         <button @click="exibirAviso" :disabled="desabilitado()" class="btn btn-primary">Teste habilitamentação</button>
         <br> 
         <select @change="mudouSelect($event)" class="form-select" name="teste">
@@ -60,10 +62,10 @@ function mudouTexto(event: Event){
 
         <input type="text" class="form=control" v-model="valor">
 
-        <h1>{{ valor }}</h1>
-        <h1>{{ rolav }}</h1>
+        <h1 v-if="invisivel">{{ valor }}</h1>
+        <h1 v-if="visivel">{{ rolav }}</h1>
 
-        <h1></h1>
+        <button></button>
       </div>
     </div>
   </div>
