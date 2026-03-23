@@ -15,6 +15,7 @@ const rolav = computed(() => {
 })
 const visivel = true
 const invisivel = false
+const visivelLegal = ref(true)
 
 
 function desabilitado(){
@@ -65,6 +66,12 @@ function mudouTexto(event: Event){
         <h1 v-if="invisivel">{{ valor }}</h1>
         <h1 v-else-if="visivel">{{ rolav }}</h1>
         <h1 v-else="">mensagem</h1>
+
+        <div class="mb-3 form-check">
+          <input v-model="visivelLegal" type="checkbox" class="form-check-input">
+          <label class="form-check-label">Visivel com vshow</label>
+        </div>
+        <h1 v-show="visivelLegal">Só visivel quando marcado</h1>
 
         <button></button>
       </div>
