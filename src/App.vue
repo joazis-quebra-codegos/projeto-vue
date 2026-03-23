@@ -63,7 +63,8 @@ function mudouTexto(event: Event){
         <input type="text" class="form=control" v-model="valor">
 
         <h1 v-if="invisivel">{{ valor }}</h1>
-        <h1 v-if="visivel">{{ rolav }}</h1>
+        <h1 v-else-if="visivel">{{ rolav }}</h1>
+        <h1 v-else="">mensagem</h1>
 
         <button></button>
       </div>
