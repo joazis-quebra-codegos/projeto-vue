@@ -16,6 +16,8 @@ const rolav = computed(() => {
 const visivel = true
 const invisivel = false
 const visivelLegal = ref(true)
+const temperaturamento = ref(0)
+const valorTemperatura = computed(Temperatura)
 
 
 function desabilitado(){
@@ -36,6 +38,21 @@ function mudouSelect(event: Event){
 
 function mudouTexto(event: Event){
   return ((event.target as HTMLSelectElement).value)
+}
+
+function Temperatura(){
+  if (temperaturamento.value < 10){
+    return "🥀🤺"
+  }
+  else if (temperaturamento.value <= 25){
+    return "🥀🥀🤺"
+  }
+  else if (temperaturamento.value <= 35){
+    return "mais ou menos"
+  }
+  else{
+    return "mt calor"
+  }
 }
 
 </script>
@@ -73,7 +90,9 @@ function mudouTexto(event: Event){
         </div>
         <h1 v-show="visivelLegal">Só visivel quando marcado</h1>
 
-        <button></button>
+        <input type="text" class="form=control" v-model="temperaturamento">
+        <h1>{{valorTemperatura}}</h1>
+
       </div>
     </div>
   </div>
