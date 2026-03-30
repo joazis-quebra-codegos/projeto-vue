@@ -9,16 +9,25 @@ const idade = 19
 const filme1 = "Capitão América o Soldado Invernal"
 const filme2 = "Inerestelar"
 const filme3 = "Guardiões da galáxia"
+
 const valor = ref("")
 const rolav = computed(() => {
   return valor.value.split('').reverse().join('') 
 })
+
 const visivel = true
 const invisivel = false
+
 const visivelLegal = ref(true)
 const temperaturamento = ref(0)
 const valorTemperatura = computed(Temperatura)
 
+const carros = ref(['Audi', 'Corsa', 'Porsche', 'Chevette', 'Uno', 'Argo', 'Ferrari'])
+const adCarro = ref('')
+
+function adicionarCarro(){
+  carros.value.push(adCarro.value)
+}
 
 function desabilitado(){
   return idade < 18;
@@ -42,16 +51,16 @@ function mudouTexto(event: Event){
 
 function Temperatura(){
   if (temperaturamento.value < 10){
-    return "🥀🤺"
+    return "⛷️⛷️⛷️"
   }
   else if (temperaturamento.value <= 25){
-    return "🥀🥀🤺"
+    return "🤺🤺🤺"
   }
   else if (temperaturamento.value <= 35){
-    return "mais ou menos"
+    return "🥀🥀🥀"
   }
   else{
-    return "mt calor"
+    return "🫠🫠🫠"
   }
 }
 
@@ -90,9 +99,17 @@ function Temperatura(){
         </div>
         <h1 v-show="visivelLegal">Só visivel quando marcado</h1>
 
-        <input type="text" class="form=control" v-model="temperaturamento">
+        <input type="text" class="form-control" v-model="temperaturamento">
         <h1>{{valorTemperatura}}</h1>
 
+        <input @keyup.enter="adicionarCarro" type="text" class="form-control" v-model="adCarro">
+
+        <ul>
+          <li v-for="carro in carros" :key="carro">
+            {{ carro }}
+          </li>
+        </ul>
+  
       </div>
     </div>
   </div>
