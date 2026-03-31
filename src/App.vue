@@ -15,21 +15,25 @@ const visivelLegal = ref(true)
 const temperaturamento = ref(0)
 const valorTemperatura = computed(Temperatura)
 
-const produtoTxt = ref('')
 const ordenacao = ref('C')
-const carros = ref([{nome: 'Ferrari', preco:800.000}, {nome: 'Porsche', preco:400.000}])
+const carros = ref(['Ferrari', 'Porsche'])
 const nomeCarro = ref('')
-const precoCarro = ref()
 
-function adicionarItemLista(nome: any, preco: any){
-  if (!nome.value.trim() || !preco.value) return
 
-  carros.value.push({
-    nome: nome.value,
-    preco: Number(preco.value)
-})
-  nome.value = ''
-  preco.value = ''
+function adicionarItemLista(){
+  carros.value.push(nomeCarro.value)
+
+  nomeCarro.value = ''
+
+  ordemLista()
+}
+
+function ordemLista(){
+  if (ordenacao.value == 'C'){
+    carros.value.sort((a, b) => a.localeCompare(b))
+  } else {
+    carros.value.sort((a, b) => b.localeCompare(a))
+  }
 }
 
 function apagarItemLista(index: number){
@@ -38,10 +42,6 @@ function apagarItemLista(index: number){
 
 function desabilitado(){
   return idade < 18;
-}
-
-function salvarHabilitado(){
-  return false;
 }
 
 function exibirAviso(){
@@ -103,22 +103,24 @@ function Temperatura(){
 
         <label for="">Ordenação</label>
 
-        <input placeholder="Nome do carro" type="text" class="form-control" v-model="nomeCarro">
-        <input placeholder="Preço do carro" type="text" class="form-control" v-model="precoCarro">
-        <button @click="adicionarItemLista(nomeCarro, precoCarro)" class="btn-primary">Adicionar valores</button>
+        <input @keyup.enter="adicionarItemLista" placeholder="Nome do carro" type="text" class="form-control" v-model="nomeCarro">
+
+        <select @change="ordemLista" name="" id="" v-model="ordenacao">
+          <option value="C" >Crescente</option>
+          <option value="D" >Decresente</option>
+        </select>
 
         <table border='1'>
           <thead>
             <tr>
               <th >Carros</th>
-              <th>Preço</th>
+              <th>Apagar</th>
             </tr>
           </thead>
 
             <tbody>
-            <tr v-for="(carro, index) in carros" :key="carro.nome">
-              <td>{{ carro.nome }}</td>
-              <td>{{ carro.preco }}</td>
+            <tr v-for="(carro, index) in carros" :key="carro">
+              <td>{{ carro }}</td>
               <td>
                 <button @click="apagarItemLista(index)" id="botao"></button>
               </td>
