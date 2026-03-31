@@ -2,14 +2,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import { computed, ref } from 'vue'
-const cidade = "Tubarão, SC"
-const escola = "Senai"
-const nome = "Nome "
 const idade = 19
-const filme1 = "Capitão América o Soldado Invernal"
-const filme2 = "Inerestelar"
-const filme3 = "Guardiões da galáxia"
-
 const valor = ref("")
 const rolav = computed(() => {
   return valor.value.split('').reverse().join('') 
@@ -22,11 +15,25 @@ const visivelLegal = ref(true)
 const temperaturamento = ref(0)
 const valorTemperatura = computed(Temperatura)
 
-const carros = ref(['Audi', 'Corsa', 'Porsche', 'Chevette', 'Uno', 'Argo', 'Ferrari'])
-const adCarro = ref('')
+const produtoTxt = ref('')
+const ordenacao = ref('C')
+const carros = ref([{nome: 'Ferrari', preco:800.000}, {nome: 'Porsche', preco:400.000}])
+const nomeCarro = ref('')
+const precoCarro = ref()
 
-function adicionarCarro(){
-  carros.value.push(adCarro.value)
+function adicionarItemLista(nome: any, preco: any){
+  if (!nome.value.trim() || !preco.value) return
+
+  carros.value.push({
+    nome: nome.value,
+    preco: Number(preco.value)
+})
+  nome.value = ''
+  preco.value = ''
+}
+
+function apagarItemLista(index: number){
+  carros.value.splice(index, 1)
 }
 
 function desabilitado(){
@@ -69,7 +76,7 @@ function Temperatura(){
 <template>
   <div class="container">
     <div class="row">
-      <div v-if="visivel" class="col">
+      <div class="col">
         <button @click="exibirAviso" :disabled="desabilitado()" class="btn btn-primary">Teste habilitamentação</button>
         <br> 
         <select @change="mudouSelect($event)" class="form-select" name="teste">
@@ -77,15 +84,6 @@ function Temperatura(){
           <option value="2">Valor 2</option>
           <option value="3">Valor 3</option>
         </select>
-        
-        <h1>Ola mundo projeto vue {{ cidade }} {{ escola }}</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur necessitatibus, hic ad aliquam iusto quam neque incidunt quia atque, aliquid ex enim facilis mollitia consequuntur molestias, dicta eveniet error ipsum!</p>
-        <h4>{{ nome }} {{ idade }}</h4>
-        <ol>
-          <li>{{ filme1}}</li>
-          <li>{{ filme2 }}</li>
-          <li>{{ filme3 }}</li>
-        </ol>
 
         <input type="text" class="form=control" v-model="valor">
 
@@ -102,20 +100,41 @@ function Temperatura(){
         <input type="text" class="form-control" v-model="temperaturamento">
         <h1>{{valorTemperatura}}</h1>
 
-        <input @keyup.enter="adicionarCarro" type="text" class="form-control" v-model="adCarro">
 
-        <ul>
-          <li v-for="carro in carros" :key="carro">
-            {{ carro }}
-          </li>
-        </ul>
-  
+        <label for="">Ordenação</label>
+
+        <input placeholder="Nome do carro" type="text" class="form-control" v-model="nomeCarro">
+        <input placeholder="Preço do carro" type="text" class="form-control" v-model="precoCarro">
+        <button @click="adicionarItemLista(nomeCarro, precoCarro)" class="btn-primary">Adicionar valores</button>
+
+        <table border='1'>
+          <thead>
+            <tr>
+              <th >Carros</th>
+              <th>Preço</th>
+            </tr>
+          </thead>
+
+            <tbody>
+            <tr v-for="(carro, index) in carros" :key="carro.nome">
+              <td>{{ carro.nome }}</td>
+              <td>{{ carro.preco }}</td>
+              <td>
+                <button @click="apagarItemLista(index)" id="botao"></button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
       </div>
     </div>
   </div>
 </template>
 
 <style>
+body{
+  gap: 5px;
+}
 .container{
   align-items:flex-start;
   justify-content: center;
@@ -127,6 +146,11 @@ h1{
 
 p {
   font-style: italic;
+}
+
+#botao{
+  width: 30px;
+  height: 15px;
 }
 
 </style>
