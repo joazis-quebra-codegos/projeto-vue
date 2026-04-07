@@ -15,31 +15,41 @@ function filtrar(){
 }
 
 function validar(){
-  if (!funcionario.value.nome) return "Nome é obrigatório"
+  const erros: string[] = []
 
-  if (!funcionario.value.cpf) return "CPF é obrigatório"
-
-  if (!funcionario.value.dataNascimento) return "Data de nascimento é obrigatória"
-
-  if (!funcionario.value.email) return "Email é obrigatório"
-
-  if (!funcionario.value.senha) return "Senha é obrigatória"
-
-  if (funcionario.value.senha.length < 8 || funcionario.value.senha.length > 64){
-    return "Senha deve ter entre 8 e 64 caracteres"
+  if (!funcionario.value.nome){
+    erros.push("Nome é obrigatório")
   }
-  return null
+
+  if (!funcionario.value.cpf){
+    erros.push("CPF é obrigatório")
+  }
+
+  if (!funcionario.value.dataNascimento){
+    erros.push("Data de nascimento é obrigatória")
+  }
+
+  if (!funcionario.value.email){
+    erros.push("Email é obrigatório")
+  }
+
+  if (!funcionario.value.senha){
+    erros.push("Senha é obrigatória")
+  } else if (funcionario.value.senha.length < 8 || funcionario.value.senha.length > 64){
+    erros.push("Senha deve ter entre 8 e 64 caracteres")
+  }
+
+  return erros
 }
 
 const erro = ref('')
 
 function enviar(){
-  const resultado = validar()
+  const erros = validar()
 
-  if (resultado){
-    erro.value = resultado
+  if (erros.length > 0){
+    alert(erros.join('\n')) // quebra de linha
   } else {
-    erro.value = ''
     alert("Funcionário válido ✅")
   }
 }
@@ -82,7 +92,7 @@ const funcionario = ref({} as Funcionario)
   <div class="container">
     <div class="row">
       <div class="col">
-        <form>
+        <form @submit.prevent="enviar">
           <div class="mb-3">
             <label for="form-label">Nome</label>
             <input v-model="funcionario.nome" class="form-control" type="text">
@@ -110,6 +120,10 @@ const funcionario = ref({} as Funcionario)
         </form>
 
         <button @click="enviar" type="submit">Enviar </button>
+
+        <p v-if="erro" style="color:red;">
+          {{ erro }}
+        </p>
 
         <table class="table">
           <thead>
