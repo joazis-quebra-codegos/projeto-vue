@@ -1,73 +1,43 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-import { computed, ref } from 'vue'
-const idade = 19
-const valor = ref("")
-const rolav = computed(() => {
-  return valor.value.split('').reverse().join('') 
-})
-
-const visivel = true
-const invisivel = false
-
-const visivelLegal = ref(true)
-const temperaturamento = ref(0)
-const valorTemperatura = computed(Temperatura)
-
-const ordenacao = ref('C')
-const carros = ref(['Ferrari', 'Porsche'])
-const nomeCarro = ref('')
-
-
-function adicionarItemLista(){
-  carros.value.push(nomeCarro.value)
-
-  nomeCarro.value = ''
-
-  ordemLista()
-}
-
-function ordemLista(){
-  if (ordenacao.value == 'C'){
-    carros.value.sort((a, b) => a.localeCompare(b))
-  } else {
-    carros.value.sort((a, b) => b.localeCompare(a))
+import { computed, ref, VueElement } from 'vue'
+const funcionario = ref('')
+const valor = ref(0)
+const valorReajuste = ref(0)
+const funcInverter = ref(true)
+const produtos = ref([
+  {
+    id: 1,
+    nome: "Notebook Dell inspiron",
+    preco: 3499.00,
+    descricao: "Notebook bom",
+    peso: 1.8
+  },
+  {
+    id: 2,
+    nome: "Celular ajax",
+    preco: "2.99",
+    descricao: "Celular da marca ajax",
+    peso: 0
+  },
+  {
+    id: 2,
+    nome: "Air fryer",
+    preco: 3.99,
+    descricao: "Melhor item doméstico iventando na história da humanidade",
+    peso: 0.1
   }
+])
+
+function inverter(){
+    funcionario.value = funcionario.value.split('').reverse().join('')
 }
 
-function apagarItemLista(index: number){
-  carros.value.splice(index, 1)
-}
-
-function desabilitado(){
-  return idade < 18;
-}
-
-function exibirAviso(){
-  alert("oi")
-}
-
-function mudouSelect(event: Event){
-  alert((event.target as HTMLSelectElement).value)
-}
-
-function mudouTexto(event: Event){
-  return ((event.target as HTMLSelectElement).value)
-}
-
-function Temperatura(){
-  if (temperaturamento.value < 10){
-    return "⛷️⛷️⛷️"
-  }
-  else if (temperaturamento.value <= 25){
-    return "🤺🤺🤺"
-  }
-  else if (temperaturamento.value <= 35){
-    return "🥀🥀🥀"
-  }
-  else{
-    return "🫠🫠🫠"
+function verificar(){
+  if (valorReajuste.value < 0 || valorReajuste.value > 100){
+    return false
+  } else{
+    return true
   }
 }
 
@@ -77,57 +47,18 @@ function Temperatura(){
   <div class="container">
     <div class="row">
       <div class="col">
-        <button @click="exibirAviso" :disabled="desabilitado()" class="btn btn-primary">Teste habilitamentação</button>
-        <br> 
-        <select @change="mudouSelect($event)" class="form-select" name="teste">
-          <option value="1">Valor 1</option>
-          <option value="2">Valor 2</option>
-          <option value="3">Valor 3</option>
-        </select>
+        <h5>Nome do funcionario</h5>
+        <input class="form-control" placeholder="digite o funcionario aqui" v-model="funcionario">
+        <h5>Salario</h5>
+        <input type="number" class="form-control" placeholder="digite o funcionario aqui" v-model="valor">
+        <h5>Reajuste salarial</h5>
+        <input @input="verificar" type="number" class="form-control" placeholder="digite o funcionario aqui" v-model="valorReajuste">
+        
+        <h2>{{ funcionario }}</h2>
+        <p v-if="!verificar()">Ajuste excede os limites!</p>
+        <h2>Valor reajustado: {{ valor/1 + (valor * valorReajuste/100) }}</h2>
 
-        <input type="text" class="form=control" v-model="valor">
-
-        <h1 v-if="invisivel">{{ valor }}</h1>
-        <h1 v-else-if="visivel">{{ rolav }}</h1>
-        <h1 v-else="">mensagem</h1>
-
-        <div class="mb-3 form-check">
-          <input v-model="visivelLegal" type="checkbox" class="form-check-input">
-          <label class="form-check-label">Visivel com vshow</label>
-        </div>
-        <h1 v-show="visivelLegal">Só visivel quando marcado</h1>
-
-        <input type="text" class="form-control" v-model="temperaturamento">
-        <h1>{{valorTemperatura}}</h1>
-
-
-        <label for="">Ordenação</label>
-
-        <input @keyup.enter="adicionarItemLista" placeholder="Nome do carro" type="text" class="form-control" v-model="nomeCarro">
-
-        <select @change="ordemLista" name="" id="" v-model="ordenacao">
-          <option value="C" >Crescente</option>
-          <option value="D" >Decresente</option>
-        </select>
-
-        <table border='1'>
-          <thead>
-            <tr>
-              <th >Carros</th>
-              <th>Apagar</th>
-            </tr>
-          </thead>
-
-            <tbody>
-            <tr v-for="(carro, index) in carros" :key="carro">
-              <td>{{ carro }}</td>
-              <td>
-                <button @click="apagarItemLista(index)" id="botao"></button>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-
+        <button @click="inverter()">Inverter funcionario</button>
       </div>
     </div>
   </div>
